@@ -7,24 +7,24 @@ platform :ios, '12.0'
 require 'json'
 podfile_properties = JSON.parse(File.read('./Podfile.properties.json')) rescue {}
 
-target 'myapp' do
+abstract_target 'common' do
   use_expo_modules!
   config = use_native_modules!
-
+  
   use_react_native!(
     :path => config[:reactNativePath],
     :hermes_enabled => podfile_properties['expo.jsEngine'] == 'hermes'
   )
-
+  
   # Uncomment to opt-in to using Flipper
   #
   # if !ENV['CI']
   #   use_flipper!('Flipper' => '0.75.1', 'Flipper-Folly' => '2.5.3', 'Flipper-RSocket' => '1.3.1')
   # end
-
+  
   post_install do |installer|
     react_native_post_install(installer)
-
+  
     # Workaround `Cycle inside FBReactNativeSpec` error for react-native 0.64
     # Reference: https://github.com/software-mansion/react-native-screens/issues/842#issuecomment-812543933
     installer.pods_project.targets.each do |target|
@@ -37,7 +37,7 @@ target 'myapp' do
       end
     end
   end
-
+  
   post_integrate do |installer|
     begin
       expo_patch_react_imports!(installer)
@@ -46,4 +46,8 @@ target 'myapp' do
     end
   end
 
+  target 'myapp' do
+  end
+  target 'myappdev' do
+  end
 end

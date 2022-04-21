@@ -7,7 +7,14 @@
         "gradleCommand": ":app:assembleDebug"
       },
       "ios": {
-        "buildConfiguration": "Debug"
+        "buildConfiguration": "Debug",
+        "scheme": "myappdev"
+      }
+    },
+    "production": {
+      "ios": {
+        "buildConfiguration": "Release",
+        "scheme": "myapp"
       }
     }
   },
